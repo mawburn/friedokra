@@ -6,9 +6,9 @@ interface SwitchProps {
   checked?: boolean
   size?: 'small' | 'medium' | 'large'
   circleColor?: string
-  onColor?: string
-  offColor?: string
-  textColor?: string
+  onColorClass?: string
+  offColorClass?: string
+  textColorClass?: string
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
@@ -17,43 +17,25 @@ export const Switch = ({
   checked = undefined,
   size = 'medium',
   circleColor = '#fff',
-  onColor = 'bg-sky-500',
-  offColor = 'bg-gray-400',
-  textColor = 'text-gray-800',
+  onColorClass = 'checked:bg-sky-400',
+  offColorClass = 'bg-gray-400',
+  textColorClass = 'text-gray-900',
   onChange = () => null,
   children = '',
 }: PropsWithChildren<SwitchProps>) => {
   const switchId = useRef(id || nanoid())
-  const [_offColor, setOffColor] = useState(
-    offColor.includes('#') ? `bg-[${offColor}]` : `bg-${offColor.replace('bg-', '')}`
-  )
-  const [_onColor, setOnColor] = useState(
-    onColor.includes('#') ? `bg-[${onColor}]` : `bg-${onColor.replace('bg-', '')}`
-  )
-  const [_textColor, setTextColor] = useState(
-    textColor.includes('#') ? `text-[${textColor}]` : `text-${textColor.replace('text-', '')}`
-  )
 
-  const [circle, setCircle] = useState<CSSProperties>({})
-
-  useEffect(() => {
-    setOffColor(offColor.includes('#') ? `bg-[${offColor}]` : `bg-${offColor.replace('bg-', '')}`)
-    setOnColor(onColor.includes('#') ? `bg-[${onColor}]` : `bg-${onColor.replace('bg-', '')}`)
-    setTextColor(
-      textColor.includes('#') ? `text-[${textColor}]` : `text-${textColor.replace('text-', '')}`
-    )
-    setCircle({
-      backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23${circleColor.replace(
-        '#',
-        ''
-      )}'/%3e%3c/svg%3e")`,
-    })
-  }, [offColor, onColor, textColor, circleColor])
+  const circle = {
+    backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23${circleColor.replace(
+      '#',
+      ''
+    )}'/%3e%3c/svg%3e")`,
+  }
 
   const inputClass = [
     'appearance-none',
     'cursor-pointer',
-    _offColor,
+    offColorClass,
     'rounded-full',
     'align-top',
     'bg-no-repeat',
@@ -63,7 +45,7 @@ export const Switch = ({
     'mt-px',
     'ease-in-out',
     'duration-200',
-    `checked:${_onColor}`,
+    `${onColorClass}`,
     'checked:bg-right',
     'motion-reduce:transition-none',
   ]
@@ -100,7 +82,7 @@ export const Switch = ({
         className={inputClass.join(' ')}
         onChange={onChange}
       />
-      <label htmlFor={switchId.current} className={`${_textColor} cursor-pointer inline-block`}>
+      <label htmlFor={switchId.current} className={`${textColorClass} cursor-pointer inline-block`}>
         {children}
       </label>
     </div>

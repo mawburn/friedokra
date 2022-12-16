@@ -11,7 +11,7 @@ export default function Home() {
         <meta name="description" content="FriedOkra" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Switch onColor="#f00">Click Me</Switch>
+      <Switch>Click Me</Switch>
       <ThemeToggle />
 
       <Image width={330} height={400} src="/okra.webp" alt="FriedOkra" />

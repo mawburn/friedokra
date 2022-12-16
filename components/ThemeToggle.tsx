@@ -20,7 +20,7 @@ export const ThemeToggle = () => {
 
   return (
     <Switch
-      onColor="bg-gray-900"
+      onColorClass="checked:bg-gray-900"
       checked={checked}
       onChange={() => {
         setChecked(undefined)
