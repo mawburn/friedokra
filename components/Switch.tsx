@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid'
-import { PropsWithChildren, useRef } from 'react'
+import { CSSProperties, PropsWithChildren, use, useEffect, useRef, useState } from 'react'
 
 interface SwitchProps {
   id?: string
@@ -24,27 +24,36 @@ export const Switch = ({
   children = '',
 }: PropsWithChildren<SwitchProps>) => {
   const switchId = useRef(id || nanoid())
+  const [_offColor, setOffColor] = useState(
+    offColor.includes('#') ? `bg-[${offColor}]` : `bg-${offColor.replace('bg-', '')}`
+  )
+  const [_onColor, setOnColor] = useState(
+    onColor.includes('#') ? `bg-[${onColor}]` : `bg-${onColor.replace('bg-', '')}`
+  )
+  const [_textColor, setTextColor] = useState(
+    textColor.includes('#') ? `text-[${textColor}]` : `text-${textColor.replace('text-', '')}`
+  )
 
-  const circle = {
-    backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23${circleColor.replace(
-      '#',
-      ''
-    )}'/%3e%3c/svg%3e")`,
-  }
+  const [circle, setCircle] = useState<CSSProperties>({})
 
-  const _onColor = onColor.includes('#') ? `bg-[${onColor}]` : `bg-${onColor.replace('bg-', '')}`
-
-  const _offColor = offColor.includes('#')
-    ? `bg-[${offColor}]`
-    : `bg-${offColor.replace('bg-', '')}`
-  const _textColor = textColor.includes('#')
-    ? `text-[${textColor}]`
-    : `text-${textColor.replace('text-', '')}`
+  useEffect(() => {
+    setOffColor(offColor.includes('#') ? `bg-[${offColor}]` : `bg-${offColor.replace('bg-', '')}`)
+    setOnColor(onColor.includes('#') ? `bg-[${onColor}]` : `bg-${onColor.replace('bg-', '')}`)
+    setTextColor(
+      textColor.includes('#') ? `text-[${textColor}]` : `text-${textColor.replace('text-', '')}`
+    )
+    setCircle({
+      backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23${circleColor.replace(
+        '#',
+        ''
+      )}'/%3e%3c/svg%3e")`,
+    })
+  }, [offColor, onColor, textColor, circleColor])
 
   const inputClass = [
-    _offColor,
-    'cursor-pointer',
     'appearance-none',
+    'cursor-pointer',
+    _offColor,
     'rounded-full',
     'align-top',
     'bg-no-repeat',
