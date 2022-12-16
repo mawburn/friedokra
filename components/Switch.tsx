@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid'
-import { CSSProperties, PropsWithChildren, use, useEffect, useRef, useState } from 'react'
+import { CSSProperties, PropsWithChildren, useEffect, useRef, useState } from 'react'
 
 interface SwitchProps {
   id?: string
