@@ -1,13 +1,13 @@
 import { nanoid } from 'nanoid'
-import { CSSProperties, PropsWithChildren, useEffect, useRef, useState } from 'react'
+import { PropsWithChildren, useRef } from 'react'
 
 interface SwitchProps {
   id?: string
   checked?: boolean
   size?: 'small' | 'medium' | 'large'
   circleColor?: string
-  onColorClass?: string
-  offColorClass?: string
+  onColor?: Colors
+  offColor?: Colors
   textColorClass?: string
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
@@ -17,9 +17,9 @@ export const Switch = ({
   checked = undefined,
   size = 'medium',
   circleColor = '#fff',
-  onColorClass = 'checked:bg-sky-400',
-  offColorClass = 'bg-gray-400',
-  textColorClass = 'text-gray-900',
+  onColor,
+  offColor,
+  textColorClass = '',
   onChange = () => null,
   children = '',
 }: PropsWithChildren<SwitchProps>) => {
@@ -32,10 +32,24 @@ export const Switch = ({
     )}'/%3e%3c/svg%3e")`,
   }
 
+  const _onColor =
+    onColor === 'primary'
+      ? 'checked:bg-switch-on-primary'
+      : onColor === 'secondary'
+      ? 'checked:bg-switch-on-secondary'
+      : 'checked:bg-switch-on-tertiary'
+
+  const _offColor =
+    offColor === 'primary'
+      ? 'bg-switch-off-primary'
+      : offColor === 'secondary'
+      ? 'bg-switch-off-secondary'
+      : 'bg-switch-off-tertiary'
+
   const inputClass = [
     'appearance-none',
     'cursor-pointer',
-    offColorClass,
+    _offColor,
     'rounded-full',
     'align-top',
     'bg-no-repeat',
@@ -45,7 +59,7 @@ export const Switch = ({
     'mt-px',
     'ease-in-out',
     'duration-200',
-    `${onColorClass}`,
+    _onColor,
     'checked:bg-right',
     'motion-reduce:transition-none',
   ]
